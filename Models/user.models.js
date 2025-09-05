@@ -75,7 +75,8 @@ export async function deductTokens(id, amount, notes) {
         status: "successful",
         action: notes,
         cost: amount,
-        balance: user.tokens + amount,
+        balance: user.tokens,
+       // balance: user.tokens + amount,
         date: getDateOnly(),
         time: getTimeOnly()
     };
@@ -84,7 +85,7 @@ export async function deductTokens(id, amount, notes) {
     if (!user.details) user.details = { Transactions: [] };
     if (!user.details.Transactions) user.details.Transactions = [];
 
-    user.tokens += amount;
+  //  user.tokens += amount;
     user.details.Transactions.unshift(trans);
     user.markModified("details"); // Important for mixed types
 
