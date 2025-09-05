@@ -76,10 +76,10 @@ export async function deductTokens(id, amount, notes) {
         action: notes,
         cost: amount,
         balance: user.tokens,
-       // balance: user.tokens + amount,
         date: getDateOnly(),
         time: getTimeOnly()
     };
+       // balance: user.tokens + amount,
 
     // Initialize details if not exists
     if (!user.details) user.details = { Transactions: [] };
