@@ -6,7 +6,7 @@ import cfg from "../config/config.js";
 
 const GITHUB_TOKENs = [cfg.gk1, cfg.gk2, cfg.gk3, cfg.gk4, cfg.gk5, cfg.gk6];
 
-let token;
+let token = GITHUB_TOKENs[0];
 let rateLeft;
 
 await selectToken();
@@ -20,9 +20,11 @@ async function checkLimit(Tk) {
         }
     });
 
+    
     let remaining = await tester.get("/rate_limit");
     remaining = remaining.data.resources.core.remaining;
     rateLeft = remaining;
+    console.log(remaining);
 
     if (remaining > 5) return "high";
     return "low";
@@ -55,15 +57,13 @@ let githubRaw = axios.create({
 
 export async function getCourses(req, res) {
     try {
-     
-//find userby ID
+        //find userby ID
         let id = req.params.id;
         const user = await PermiumUser.findById(id);
         //validation
         if (!user) throw new Error(`User  not found`);
         if (user.tokens < 1) throw new Error(`Insufficient Tokens`);
-     
-     
+
         await selectToken();
         //get the courses
         const onlineCourses = await githubApi.get(`/users/UniportPQ/repos`);
@@ -79,14 +79,13 @@ export async function getCourses(req, res) {
 
 export async function getCoursesD(req, res) {
     try {
-     
-//find userby ID
+        //find userby ID
         let id = req.params.id;
         const user = await PermiumUser.findById(id);
         //validation
         if (!user) throw new Error(`User  not found`);
         if (user.tokens < 1) throw new Error(`Insufficient Tokens`);
-     
+
         await selectToken();
 
         //get the courses
@@ -108,20 +107,18 @@ export async function getCoursesD(req, res) {
 
 export async function getSessions(req, res) {
     try {
-
-//find userby ID
+        //find userby ID
         let id = req.params.id;
         const user = await PermiumUser.findById(id);
         //validation
         if (!user) throw new Error(`User  not found`);
         if (user.tokens < 1) throw new Error(`Insufficient Tokens`);
-     
-     
-    let course = req.params.course;
 
-    if (typeof course !== "string") throw new Error("Select a course ");
+        let course = req.params.course;
 
-    await selectToken();
+        if (typeof course !== "string") throw new Error("Select a course ");
+
+        await selectToken();
 
         let availableYears = await githubApi.get(
             `/repos/UniportPQ/${course}/contents/`
@@ -201,8 +198,6 @@ export async function getLimits(req, res) {
 
             let remaining = await tester.get("/rate_limit");
             remaining = remaining.data.resources.core.remaining;
-            console.log(remaining) 
-            counts.push(remaining)
         }
         res.send(counts);
     } catch (err) {

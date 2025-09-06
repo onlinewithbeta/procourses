@@ -5,7 +5,7 @@ import cfg from "./config/config.js";
 import cors from "cors";
 //import serverless from "serverless-http";
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 2026;
 
 const app = express();
 app.use(cors());

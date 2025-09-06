@@ -67,25 +67,25 @@ export async function deductTokens(id, amount, notes) {
     const user = await PermiumUser.findById(id);
     if (!user) throw new Error(`User  not found`);
 
-    if (user.tokens + amount < 0)
+    if (user.tokens + amount < 0){
         throw new Error(`Insufficient tokens. Current balance: ${user.tokens}`);
-
+}
     const trans = {
         transId: Date.now(),
         status: "successful",
         action: notes,
         cost: amount,
-        balance: user.tokens,
+        balance: user.tokens + amount,
         date: getDateOnly(),
         time: getTimeOnly()
     };
-       // balance: user.tokens + amount,
+    //  balance: user.tokens,
 
     // Initialize details if not exists
     if (!user.details) user.details = { Transactions: [] };
     if (!user.details.Transactions) user.details.Transactions = [];
 
-  //  user.tokens += amount;
+    user.tokens += amount;
     user.details.Transactions.unshift(trans);
     user.markModified("details"); // Important for mixed types
 
