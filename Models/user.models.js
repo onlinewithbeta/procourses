@@ -67,9 +67,9 @@ export async function deductTokens(id, amount, notes) {
     const user = await PermiumUser.findById(id);
     if (!user) throw new Error(`User  not found`);
 
-    if (user.tokens + amount < 0){
+    if (user.tokens + amount < 0) {
         throw new Error(`Insufficient tokens. Current balance: ${user.tokens}`);
-}
+    }
     const trans = {
         transId: Date.now(),
         status: "successful",
