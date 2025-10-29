@@ -62,7 +62,8 @@ export async function getCourses(req, res) {
         const user = await PermiumUser.findById(id);
         //validation
         if (!user) throw new Error(`User  not found`);
-        if (user.tokens < 1) throw new Error(`Insufficient Tokens`);
+        //free mode
+        if (user.tokens < -1) throw new Error(`Insufficient Tokens`);
 
         await selectToken();
         //get the courses
@@ -84,7 +85,8 @@ export async function getCoursesD(req, res) {
         const user = await PermiumUser.findById(id);
         //validation
         if (!user) throw new Error(`User  not found`);
-        if (user.tokens < 1) throw new Error(`Insufficient Tokens`);
+             //free mode
+        if (user.tokens < -2) throw new Error(`Insufficient Tokens`);
 
         await selectToken();
 
@@ -112,7 +114,8 @@ export async function getSessions(req, res) {
         const user = await PermiumUser.findById(id);
         //validation
         if (!user) throw new Error(`User  not found`);
-        if (user.tokens < 1) throw new Error(`Insufficient Tokens`);
+             //free mode
+        if (user.tokens < -2) throw new Error(`Insufficient Tokens`);
 
         let course = req.params.course;
 
@@ -144,7 +147,8 @@ export async function getPaper(req, res) {
 
         //validation
         if (!user) throw new Error(`User  not found`);
-        if (user.tokens < 1) throw new Error(`Insufficient Tokens`);
+             //free mode
+        if (user.tokens < -2) throw new Error(`Insufficient Tokens`);
 
         if (typeof course !== "string") throw new Error("Select a course ");
         if (typeof session !== "string") throw new Error("Select a session ");
