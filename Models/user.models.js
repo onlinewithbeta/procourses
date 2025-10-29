@@ -66,8 +66,8 @@ export const PermiumUser = mongoose.model("PermiumUser", UserSchema);
 export async function deductTokens(id, amount, notes) {
     const user = await PermiumUser.findById(id);
     if (!user) throw new Error(`User  not found`);
-
-    if (user.tokens + amount < 0) {
+//free mode
+    if (user.tokens + amount < -2) {
         throw new Error(`Insufficient tokens. Current balance: ${user.tokens}`);
     }
     const trans = {
