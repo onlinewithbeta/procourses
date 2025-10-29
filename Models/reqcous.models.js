@@ -35,7 +35,11 @@ const reqcoschema = new mongoose.Schema({
         minLength: 2,
     },
 });
+//TimeT
+const nowM = new Date().toISOString();
+// Split the ISO string into date and time parts
+const [datePart, timePart] = nowM.split('T');
 
-const courseReq = mongoose.model('proCourse',reqcoschema)
+const courseReq = mongoose.model(`proCourse${datePart}`,reqcoschema)
 
 export default courseReq;
